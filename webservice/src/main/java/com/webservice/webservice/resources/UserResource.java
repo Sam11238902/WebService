@@ -12,6 +12,9 @@ import com.webservice.webservice.entities.User;
 @RequestMapping(value ="/users")
 public class UserResource {
 	
+	
+	
+	//PARA FINS DE TESTES O METODO ABAIXO ;
 	@GetMapping
 	public ResponseEntity<User> findAll(){
 	
