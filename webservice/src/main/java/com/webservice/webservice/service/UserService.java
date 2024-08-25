@@ -41,4 +41,32 @@ public class UserService {
 	}
 	
 	
+	public User update(Long id, User obj) {
+		
+		
+		// isso é melhor do que usar o findById , porque ele deixa o objeto monitorado , ele nao vai ate o banco .
+		User entity = userRepository.getReferenceById(id);
+		
+		
+		updateData(entity,obj);
+		
+		
+		return userRepository.save(entity);
+		
+	}
+
+
+	private void updateData(User entity, User obj) {
+		
+		
+		entity.setName(obj.getName());
+		entity.setEmail(obj.getEmail());
+		entity.setPhone(obj.getPhone());
+		
+		
+		
+	}
+	
+	
+	
 }
