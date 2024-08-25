@@ -3,6 +3,7 @@ package com.webservice.webservice.entities;
 import java.io.Serializable;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.webservice.webservice.entities.pk.OrderItemPk;
 
 import jakarta.persistence.EmbeddedId;
@@ -17,7 +18,7 @@ public class OrderItem implements Serializable{
 
 	
 	@EmbeddedId
-	private OrderItemPk id;
+	 private OrderItemPk id = new OrderItemPk(); 
 	
 	private Integer quantity;
 	private Double price;
@@ -37,8 +38,8 @@ public class OrderItem implements Serializable{
 		this.quantity = quantity;
 		this.price = price;
 	}
-
-	
+	// o que vale é o metodo GET para nao entrar em loop.
+	@JsonIgnore
 	public Order getOrder() {
 		return id.getOrder();
 	}

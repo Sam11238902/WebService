@@ -3,7 +3,9 @@ package com.webservice.webservice.entities;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import org.hibernate.annotations.ManyToAny;
 
@@ -17,6 +19,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -35,6 +38,11 @@ public class Order implements Serializable{
 	@ManyToOne
 	@JoinColumn(name = "client_id")
 	private User client;
+	
+
+	@OneToMany(mappedBy = "id.order")
+	private Set<OrderItem> items = new HashSet<>();
+
 	
 	
 	
@@ -97,6 +105,13 @@ public class Order implements Serializable{
 	}
 
     
+	
+
+	public Set<OrderItem> getItems() {
+		return items;
+	}
+
+
 
 	public OrderStatus getOrderStatus() {
 		return OrderStatus.valueOf(orderStatus);
