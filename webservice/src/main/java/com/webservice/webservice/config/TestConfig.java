@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Profile;
 import com.webservice.webservice.entities.Category;
 import com.webservice.webservice.entities.Order;
 import com.webservice.webservice.entities.OrderItem;
+import com.webservice.webservice.entities.Payment;
 import com.webservice.webservice.entities.Product;
 //import com.webservice.webservice.entities.Product;
 import com.webservice.webservice.entities.User;
@@ -19,7 +20,6 @@ import com.webservice.webservice.repositories.CategoryRepository;
 import com.webservice.webservice.repositories.OrderItemRepository;
 import com.webservice.webservice.repositories.OrderRepository;
 import com.webservice.webservice.repositories.ProductRepository;
-
 import com.webservice.webservice.repositories.UserRepository;
 
 @Configuration
@@ -102,6 +102,12 @@ public class TestConfig  implements CommandLineRunner{
 		
 		orderItemRepository.saveAll(Arrays.asList(oi1,oi2,oi3,oi4));
 		
+		
+		Payment pay1 = new Payment(null,Instant.parse("2019-07-23T03:42:10Z"),o2);
+		
+	 o2.setPayment(pay1);
+	 
+	 orderRepository.save(o2);
 		
 			}
 }
