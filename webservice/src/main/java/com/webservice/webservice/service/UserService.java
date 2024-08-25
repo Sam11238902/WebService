@@ -3,6 +3,7 @@ package com.webservice.webservice.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.catalina.startup.ClassLoaderFactory.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,4 +30,9 @@ public class UserService {
 		return obj.get();
 	}
 
+	
+	public User insert(User obj) {
+		
+		return userRepository.save(obj);
+	}
 }
