@@ -5,10 +5,15 @@ import java.util.Optional;
 
 import org.apache.catalina.startup.ClassLoaderFactory.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.webservice.webservice.entities.User;
 import com.webservice.webservice.repositories.UserRepository;
+import com.webservice.webservice.service.exceptions.DataBaseException;
+import com.webservice.webservice.service.exceptions.ResourceNotFoundException;
 
 @Service
 public class UserService {
@@ -27,7 +32,7 @@ public class UserService {
 		
 		Optional<User> obj = userRepository.findById(id);
 		
-		return obj.get();
+		return obj.orElseThrow(() -> new ResourceNotFoundException(id));
 	}
 
 	
@@ -37,8 +42,28 @@ public class UserService {
 	}
 	
 	public void delete(Long id) {
-		userRepository.deleteById(id);
-	}
+		
+		
+		try {
+			
+			if(userRepository.existsById(id)) {
+				userRepository.deleteById(id);
+			}
+			else {
+				throw new ResourceNotFoundException(id);
+			}	
+			
+		} catch (DataIntegrityViolationException e ) {
+				
+			throw new DataBaseException(e.getMessage());
+			
+		}		
+			
+		}
+		
+		
+
+	
 	
 	
 	public User update(Long id, User obj) {
@@ -63,8 +88,11 @@ public class UserService {
 		entity.setEmail(obj.getEmail());
 		entity.setPhone(obj.getPhone());
 		
-		
-		
+	
+	}
+	
+	public boolean existsById(Long id) {
+	    return userRepository.existsById(id);
 	}
 	
 	
