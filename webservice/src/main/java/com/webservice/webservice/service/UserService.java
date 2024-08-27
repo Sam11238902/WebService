@@ -15,6 +15,8 @@ import com.webservice.webservice.repositories.UserRepository;
 import com.webservice.webservice.service.exceptions.DataBaseException;
 import com.webservice.webservice.service.exceptions.ResourceNotFoundException;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Service
 public class UserService {
 	
@@ -70,13 +72,19 @@ public class UserService {
 		
 		
 		// isso é melhor do que usar o findById , porque ele deixa o objeto monitorado , ele nao vai ate o banco .
+		
+		
+		try {
 		User entity = userRepository.getReferenceById(id);
-		
-		
 		updateData(entity,obj);
-		
-		
 		return userRepository.save(entity);
+			
+		} catch (EntityNotFoundException e) {
+		
+			throw new ResourceNotFoundException(id);
+		}
+	
+		
 		
 	}
 
